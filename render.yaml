@@ -1,0 +1,102 @@
+databases:
+  # Committed duel terms (claim, rules, evidence) and stored verdicts. A
+  # service's local disk is wiped on every deploy, so these live in Postgres.
+  - name: wagr-db
+    plan: free
+    databaseName: wagr
+    user: wagr
+
+services:
+  # The relayer. It registers duel terms, auto-resolves expired duels through
+  # GenLayer from its own GenLayer account, collects attestations and pays Arc
+  # gas for `submitVerdict` / `finalizeVerdict`. Its own key carries no
+  # authority: the escrow only accepts a verdict backed by a quorum of
+  # registered attester signatures.
+  - type: web
+    name: wagr-relayer
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build -w @wagr/shared && npm run build -w @wagr/relayer
+    startCommand: bash relayer/start.sh
+    healthCheckPath: /health
+    envVars:
+      # NODE_ENV is deliberately not set here. Render applies service env vars
+      # during the build, and NODE_ENV=production makes `npm ci` skip
+      # devDependencies, which drops the typescript/@types/node needed to
+      # compile. relayer/start.sh exports it at runtime instead.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: wagr-db
+          property: connectionString
+      - key: ARC_TESTNET_RPC_URL
+        value: https://rpc.testnet.arc.io
+      - key: ARC_TESTNET_ESCROW_ADDRESS
+        value: 0xf587d9a28293e062870c73A731F10Aa1f100088A
+      - key: ARC_MAINNET_RPC_URL
+        value: https://rpc.mainnet.arc.io
+      - key: ARC_MAINNET_ESCROW_ADDRESS
+        sync: false
+      - key: GENLAYER_NETWORK
+        value: studionet
+      - key: GENLAYER_RPC_URL
+        value: https://studio.genlayer.com/api
+      - key: GENLAYER_EXPLORER_URL
+        value: https://explorer-studio.genlayer.com
+      - key: GENLAYER_RESOLVER_ADDRESS
+        value: 0xdeA0CBCc78CeE4fa43066EE096EC30B3913f4031
+      # A verdict that GenLayer has only ACCEPTED can still be overturned on
+      # appeal, so attesting waits for FINALIZED.
+      - key: WAGR_REQUIRE_GENLAYER_FINALITY
+        value: "true"
+      - key: WAGR_AUTO_RESOLVE_INTERVAL_MS
+        value: "15000"
+      # Independent co-signer. Its key lives on a different service so a
+      # compromise of this one cannot reach the threshold alone.
+      - key: WAGR_ATTESTER_ENDPOINTS
+        sync: false
+      # Arc gas payer and GenLayer account. Set per environment.
+      - key: ARC_RELAYER_PRIVATE_KEY
+        sync: false
+      - key: GENLAYER_ACCOUNT_PRIVATE_KEY
+        sync: false
+      # This service's attester identity. Set per environment.
+      - key: WAGR_ATTESTER_PRIVATE_KEY
+        sync: false
+      - key: WAGR_ATTESTER_AUTH_TOKEN
+        sync: false
+
+  # Second attester. Runs the same verification code under a different key and
+  # a different service, holds no gas key, and never writes to Arc. It exists
+  # so that no single compromised process can authorize a payout.
+  - type: web
+    name: wagr-attester
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build -w @wagr/shared && npm run build -w @wagr/relayer
+    startCommand: bash relayer/start.sh
+    healthCheckPath: /health
+    envVars:
+      - key: ARC_TESTNET_RPC_URL
+        value: https://rpc.testnet.arc.io
+      - key: ARC_TESTNET_ESCROW_ADDRESS
+        value: 0xf587d9a28293e062870c73A731F10Aa1f100088A
+      - key: ARC_MAINNET_RPC_URL
+        value: https://rpc.mainnet.arc.io
+      - key: ARC_MAINNET_ESCROW_ADDRESS
+        sync: false
+      - key: GENLAYER_NETWORK
+        value: studionet
+      - key: GENLAYER_RPC_URL
+        value: https://studio.genlayer.com/api
+      - key: GENLAYER_EXPLORER_URL
+        value: https://explorer-studio.genlayer.com
+      - key: GENLAYER_RESOLVER_ADDRESS
+        value: 0xdeA0CBCc78CeE4fa43066EE096EC30B3913f4031
+      - key: WAGR_REQUIRE_GENLAYER_FINALITY
+        value: "true"
+      - key: WAGR_AUTO_RESOLVE
+        value: "false"
+      - key: WAGR_ATTESTER_PRIVATE_KEY
+        sync: false
+      - key: WAGR_ATTESTER_AUTH_TOKEN
+        sync: false
