@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+.wagr-*
+*.old-escrow-*
+SESSION_BRIDGE_DEPLOYMENT_NOTES.md
+contracts/base/out
+contracts/base/cache
+contracts/base/broadcast
+node_modules
+**/node_modules
+**/dist
