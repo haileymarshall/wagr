@@ -38,8 +38,8 @@ function priceTerms(symbol: string, direction: Direction, target: string) {
   return {
     claim: `Will ${coin.name} (${coin.symbol}) be ${direction} $${shown} when this duel ends?`,
     rules:
-      `YES if the Coinbase spot price API shows the ${coin.symbol}-USD amount ${direction} ${exact} at the end time. ` +
-      `NO if it shows ${exact} ${opposite}.`,
+      `The Coinbase spot price API is read right after the duel ends; that reading is the ${coin.symbol}-USD price at the end time. ` +
+      `YES if it shows an amount ${direction} ${exact}. NO if it shows ${exact} ${opposite}.`,
     evidence: `https://api.coinbase.com/v2/prices/${coin.symbol}-USD/spot`,
   }
 }

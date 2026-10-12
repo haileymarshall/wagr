@@ -43,7 +43,7 @@ services:
       - key: GENLAYER_EXPLORER_URL
         value: https://explorer-studio.genlayer.com
       - key: GENLAYER_RESOLVER_ADDRESS
-        value: 0xdeA0CBCc78CeE4fa43066EE096EC30B3913f4031
+        value: 0xAA832c576ADBb58DdFC31Cbd07d82f462A084810
       # A verdict that GenLayer has only ACCEPTED can still be overturned on
       # appeal, so attesting waits for FINALIZED.
       - key: WAGR_REQUIRE_GENLAYER_FINALITY
@@ -91,7 +91,7 @@ services:
       - key: GENLAYER_EXPLORER_URL
         value: https://explorer-studio.genlayer.com
       - key: GENLAYER_RESOLVER_ADDRESS
-        value: 0xdeA0CBCc78CeE4fa43066EE096EC30B3913f4031
+        value: 0xAA832c576ADBb58DdFC31Cbd07d82f462A084810
       - key: WAGR_REQUIRE_GENLAYER_FINALITY
         value: "true"
       - key: WAGR_AUTO_RESOLVE

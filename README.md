@@ -61,7 +61,7 @@ payout (winners only). A void duel refunds matched stakes in full.
 | Arc Testnet | `5042002` | `0xf587d9a28293e062870c73A731F10Aa1f100088A` |
 | Arc Mainnet | `5042` | _deploying_ |
 
-GenLayer resolver (StudioNet): `0xdeA0CBCc78CeE4fa43066EE096EC30B3913f4031`
+GenLayer resolver (StudioNet): `0xAA832c576ADBb58DdFC31Cbd07d82f462A084810`
 
 ## Trust model
 
