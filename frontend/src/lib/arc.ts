@@ -12,6 +12,9 @@ export const rpcUrl =
 const rawEscrow = isMainnet ? import.meta.env.VITE_ARC_MAINNET_ESCROW_ADDRESS : import.meta.env.VITE_ARC_TESTNET_ESCROW_ADDRESS
 export const escrowAddress = rawEscrow && isAddress(rawEscrow) ? (rawEscrow as `0x${string}`) : undefined
 
+/** The same app built for the other Arc network, linked from the footer. */
+export const otherSiteUrl = import.meta.env.VITE_OTHER_SITE_URL as string | undefined
+
 export const relayerUrl = import.meta.env.VITE_RELAYER_URL || 'http://localhost:8787'
 export const genlayerExplorer = 'https://explorer-studio.genlayer.com'
 

@@ -35,7 +35,7 @@ services:
       - key: ARC_MAINNET_RPC_URL
         value: https://rpc.mainnet.arc.io
       - key: ARC_MAINNET_ESCROW_ADDRESS
-        sync: false
+        value: 0x568FB2Fe791677939B1E06987B97afb72Ffe1687
       - key: GENLAYER_NETWORK
         value: studionet
       - key: GENLAYER_RPC_URL
@@ -83,7 +83,7 @@ services:
       - key: ARC_MAINNET_RPC_URL
         value: https://rpc.mainnet.arc.io
       - key: ARC_MAINNET_ESCROW_ADDRESS
-        sync: false
+        value: 0x568FB2Fe791677939B1E06987B97afb72Ffe1687
       - key: GENLAYER_NETWORK
         value: studionet
       - key: GENLAYER_RPC_URL

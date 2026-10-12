@@ -5,7 +5,7 @@ import { parseEther, parseEventLogs } from 'viem'
 import { useAccount, useBalance } from 'wagmi'
 import { WalletButton } from '../components/WalletButton'
 import { TxNotice } from '../components/TxNotice'
-import { arcChainId, isMainnet } from '../lib/arc'
+import { arcChainId } from '../lib/arc'
 import { formatDate, usdc } from '../lib/format'
 import { Corner } from '../components/Slip'
 import { saveDuelMetadata, type StoredDuelMetadata } from '../lib/relayer'
@@ -45,7 +45,7 @@ function priceTerms(symbol: string, direction: Direction, target: string) {
 }
 
 const DURATIONS = [
-  ...(isMainnet ? [] : [{ label: '10 min', seconds: 600 }]),
+  { label: '10 min', seconds: 600 },
   { label: '1 hour', seconds: 3_600 },
   { label: '1 day', seconds: 86_400 },
   { label: '1 week', seconds: 604_800 },

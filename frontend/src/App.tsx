@@ -1,7 +1,7 @@
 import { Link, NavLink, Route, Routes } from 'react-router-dom'
 import { WalletButton } from './components/WalletButton'
 import { Ticker } from './components/Ticker'
-import { arc, escrowAddress, isMainnet } from './lib/arc'
+import { arc, escrowAddress, isMainnet, otherSiteUrl } from './lib/arc'
 import { Create } from './pages/Create'
 import { Duel } from './pages/Duel'
 import { Explore } from './pages/Explore'
@@ -47,6 +47,11 @@ export function App() {
       <footer className="footer">
         <span className="brand-word small">Wagr</span>
         <span>Two people, one bet. Settled in USDC on Arc, judged by GenLayer.</span>
+        {otherSiteUrl && (
+          <a className="footer-net" href={otherSiteUrl}>
+            {isMainnet ? 'Try it on Arc Testnet →' : 'Use Wagr on Arc Mainnet →'}
+          </a>
+        )}
       </footer>
     </div>
   )

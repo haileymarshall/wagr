@@ -56,10 +56,13 @@ payout (winners only). A void duel refunds matched stakes in full.
 
 ## Networks
 
+- App (Arc Mainnet): https://wagr-five.vercel.app
+- App (Arc Testnet): https://wagr-testnet.vercel.app
+
 | Network | Chain ID | Escrow |
 | --- | ---: | --- |
 | Arc Testnet | `5042002` | `0xf587d9a28293e062870c73A731F10Aa1f100088A` |
-| Arc Mainnet | `5042` | _deploying_ |
+| Arc Mainnet | `5042` | `0x568FB2Fe791677939B1E06987B97afb72Ffe1687` |
 
 GenLayer resolver (StudioNet): `0xAA832c576ADBb58DdFC31Cbd07d82f462A084810`
 
@@ -133,9 +136,10 @@ npm run deploy:arc-mainnet
   (`ARC_RELAYER_PRIVATE_KEY`, `GENLAYER_ACCOUNT_PRIVATE_KEY`,
   `WAGR_ATTESTER_PRIVATE_KEY`, `WAGR_ATTESTER_AUTH_TOKEN`,
   `WAGR_ATTESTER_ENDPOINTS`) are set in the Render dashboard.
-- **Frontend:** Vercel from the repo root (`vercel.json`). Set `VITE_ARC_NETWORK`
+- **Frontend:** Vercel from the repo root (`vercel.json`). One project per network. Set `VITE_ARC_NETWORK`
   (`testnet` / `mainnet`), `VITE_ARC_TESTNET_ESCROW_ADDRESS` or
-  `VITE_ARC_MAINNET_ESCROW_ADDRESS`, and `VITE_RELAYER_URL`.
+  `VITE_ARC_MAINNET_ESCROW_ADDRESS`, `VITE_RELAYER_URL`, and optionally
+  `VITE_OTHER_SITE_URL` (the other network's site, linked from the footer).
 - **Resolver:** `npm run genlayer:deploy` (only when the resolver changes).
 
 Regenerate the shared ABI whenever the contract changes: `npm run contracts:abi`.
